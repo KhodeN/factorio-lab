@@ -5,6 +5,7 @@ import {
   ItemId,
   Rational,
   RationalRecipe,
+  SimplexResult,
   Step,
   WARNING_HANG,
 } from '~/models';
@@ -44,6 +45,8 @@ export const COST_MINED = Rational.from(10000);
 export const COST_MANUAL = Rational.from(1000000);
 
 export class SimplexUtility {
+  static result: SimplexResult = SimplexResult.None;
+
   /** Solve all remaining steps using simplex method, if necessary */
   static solve(
     steps: Step[],
@@ -52,7 +55,9 @@ export class SimplexUtility {
     data: Dataset,
     error = true
   ): Step[] {
+    SimplexUtility.result = SimplexResult.None;
     if (!steps.length) {
+      SimplexUtility.result = SimplexResult.Skipped;
       return steps;
     }
 
@@ -61,6 +66,7 @@ export class SimplexUtility {
 
     if (state == null) {
       // Matrix solution is not required
+      SimplexUtility.result = SimplexResult.Skipped;
       return steps;
     }
 
@@ -72,11 +78,14 @@ export class SimplexUtility {
         alert(ERROR_SIMPLEX);
         console.error('Failed to solve matrix using simplex method');
       }
+      SimplexUtility.result = SimplexResult.Failed;
       return steps;
     }
 
     // Update steps with solution
     this.updateSteps(steps, solution, state);
+
+    SimplexUtility.result = SimplexResult.Solved;
 
     return steps;
   }
@@ -244,6 +253,7 @@ export class SimplexUtility {
     const A = this.canonical(state);
 
     // Solve tableau using simplex method
+    SimplexUtility.result = SimplexResult.Started;
     const result = this.simplex(A, error);
 
     if (result) {

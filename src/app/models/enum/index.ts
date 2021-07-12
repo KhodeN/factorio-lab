@@ -11,3 +11,4 @@ export * from './list-mode';
 export * from './preset';
 export * from './rate-type';
 export * from './research-speed';
+export * from './simplex-result';

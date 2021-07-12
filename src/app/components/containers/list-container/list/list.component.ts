@@ -34,7 +34,7 @@ import { ItemsState } from '~/store/items';
 import { ColumnsState } from '~/store/preferences';
 import { RecipesState } from '~/store/recipes';
 import { SettingsState } from '~/store/settings';
-import { ExportUtility, RecipeUtility } from '~/utilities';
+import { ExportUtility, RecipeUtility, SimplexUtility } from '~/utilities';
 import { RecipeSettingsComponent } from '../../recipe-settings.component';
 
 export enum StepDetailTab {
@@ -169,6 +169,7 @@ export class ListComponent
   ListMode = ListMode;
   StepDetailTab = StepDetailTab;
   Rational = Rational;
+  Simplex = SimplexUtility;
 
   constructor(
     private ref: ChangeDetectorRef,
