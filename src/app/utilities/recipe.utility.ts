@@ -350,7 +350,7 @@ export class RecipeUtility {
   static adjustProduct(
     product: Product,
     productSteps: Entities<[string, Rational][]>,
-    recipeSettings: RecipesState,
+    recipeSettings: Entities<RationalRecipeSettings>,
     factories: FactoriesState,
     data: Dataset
   ): Product {
@@ -382,7 +382,8 @@ export class RecipeUtility {
           if (product.viaSetting === def.factory) {
             product.viaFactoryModules =
               product.viaFactoryModules || def.factoryModules;
-            product.viaBeaconCount = product.viaBeaconCount || def.beaconCount;
+            product.viaBeaconCount =
+              product.viaBeaconCount || def.beaconCount.toString();
             product.viaBeacon = product.viaBeacon || def.beacon;
             const beacon = data.itemEntities[product.viaBeacon]?.beacon;
             if (beacon && !product.viaBeaconModules) {

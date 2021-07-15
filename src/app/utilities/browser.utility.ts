@@ -68,6 +68,7 @@ export class BrowserUtility {
   static saveState(state: State): void {
     const newState = { ...state };
     delete newState.datasetsState;
+    delete newState.solutionState;
     localStorage.setItem(STATE_KEY, JSON.stringify(newState));
   }
 }

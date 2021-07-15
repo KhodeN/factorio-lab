@@ -23,8 +23,8 @@ import {
   SetLinkTextAction,
   SetLinkSizeAction,
 } from '~/store/preferences';
-import { getSankey, getSteps } from '~/store/products';
 import { getIsDsp } from '~/store/settings';
+import { getSankey, getSteps } from '~/store/solution';
 import { SankeyComponent } from './sankey/sankey.component';
 
 @Component({

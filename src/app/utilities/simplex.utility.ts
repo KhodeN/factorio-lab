@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import {
   Dataset,
   Entities,
@@ -48,73 +49,85 @@ export class SimplexUtility {
   static result: SimplexResult = SimplexResult.None;
 
   /** Solve all remaining steps using simplex method, if necessary */
-  static solve(
+  static async solve(
     steps: Step[],
     itemSettings: ItemsState,
     disabledRecipes: string[],
     data: Dataset,
-    error = true
-  ): Step[] {
-    SimplexUtility.result = SimplexResult.None;
-    if (!steps.length) {
-      SimplexUtility.result = SimplexResult.Skipped;
-      return steps;
-    }
-
-    // Get matrix state
-    const state = this.getState(steps, itemSettings, disabledRecipes, data);
-
-    if (state == null) {
-      // Matrix solution is not required
-      SimplexUtility.result = SimplexResult.Skipped;
-      return steps;
-    }
-
-    // Get solution for matrix state
-    const solution = this.getSolution(state, error);
-
-    if (solution == null) {
-      if (solution === null && error) {
-        alert(ERROR_SIMPLEX);
-        console.error('Failed to solve matrix using simplex method');
+    error = true,
+    size = new Subject<[number, number]>(),
+    status = new Subject<[number, number]>()
+  ): Promise<[Step[], SimplexResult]> {
+    return new Promise<[Step[], SimplexResult]>((resolve) => {
+      if (!steps.length) {
+        resolve([steps, SimplexResult.Skipped]);
+        return;
       }
-      SimplexUtility.result = SimplexResult.Failed;
-      return steps;
-    }
 
-    // Update steps with solution
-    this.updateSteps(steps, solution, state);
+      // Get matrix state
+      const state = this.getState(steps, itemSettings, disabledRecipes, data);
 
-    SimplexUtility.result = SimplexResult.Solved;
+      if (state == null) {
+        // Matrix solution is not required
+        resolve([steps, SimplexResult.Skipped]);
+        return;
+      }
 
-    return steps;
+      // Get solution for matrix state
+      const solution = this.getSolution(state, error, size, status);
+
+      this.getSolution(state, error, size, status).then((result) => {
+        if (result == null) {
+          if (solution === null && error) {
+            alert(ERROR_SIMPLEX);
+            console.error('Failed to solve matrix using simplex method');
+            resolve([steps, SimplexResult.Failed]);
+          } else {
+            resolve([steps, SimplexResult.Cancelled]);
+          }
+        } else {
+          this.updateSteps(steps, result, state);
+          resolve([steps, SimplexResult.Solved]);
+        }
+      });
+    });
   }
 
   /** Solve simplex for a given item id and return recipes or items in steps */
-  static getSteps(
+  static async getSteps(
     itemId: string,
     itemSettings: ItemsState,
     disabledRecipes: string[],
     data: Dataset,
     recipes: boolean
-  ): [string, Rational][] {
-    let steps: Step[] = [];
-    RateUtility.addStepsFor(itemId, Rational.one, steps, itemSettings, data);
-    steps = this.solve(steps, itemSettings, disabledRecipes, data, false);
+  ): Promise<[string, Rational][]> {
+    return new Promise<[string, Rational][]>((resolve) => {
+      let steps: Step[] = [];
+      RateUtility.addStepsFor(itemId, Rational.one, steps, itemSettings, data);
+      this.solve(steps, itemSettings, disabledRecipes, data, false).then(
+        (result) => {
+          steps = result[0];
 
-    if (recipes) {
-      return steps
-        .filter((s) => s.recipeId)
-        .sort((a, b) =>
-          data.recipeR[b.recipeId]
-            .output(itemId)
-            .sub(data.recipeR[a.recipeId].output(itemId))
-            .toNumber()
-        )
-        .map((s) => [s.recipeId, s.factories]);
-    } else {
-      return steps.filter((s) => s.itemId).map((s) => [s.itemId, s.items]);
-    }
+          if (recipes) {
+            resolve(
+              steps
+                .filter((s) => s.recipeId)
+                .sort((a, b) =>
+                  data.recipeR[b.recipeId]
+                    .output(itemId)
+                    .sub(data.recipeR[a.recipeId].output(itemId))
+                    .toNumber()
+                )
+                .map((s) => [s.recipeId, s.factories])
+            );
+          } else {
+            resolve(
+              steps.filter((s) => s.itemId).map((s) => [s.itemId, s.items])
+            );
+          }
+        }
+      );
+    });
   }
 
   //#region Setup
@@ -248,21 +261,29 @@ export class SimplexUtility {
 
   //#region Simplex
   /** Convert state to canonical tableau, solve using simplex, and parse solution */
-  static getSolution(state: MatrixState, error = true): MatrixSolution {
-    // Convert state to canonical tableau
-    const A = this.canonical(state);
+  static async getSolution(
+    state: MatrixState,
+    error = true,
+    size = new Subject<[number, number]>(),
+    status = new Subject<[number, number]>()
+  ): Promise<MatrixSolution> {
+    return new Promise<MatrixSolution>((resolve) => {
+      // Convert state to canonical tableau
+      const A = this.canonical(state);
 
-    // Solve tableau using simplex method
-    SimplexUtility.result = SimplexResult.Started;
-    const result = this.simplex(A, error);
+      size.next([A.length, A[0].length]);
 
-    if (result) {
-      // Parse solution into usable state
-      return this.parseSolution(A, state);
-    } else {
-      // No solution found
-      return result === false ? null : undefined;
-    }
+      // Solve tableau using simplex method
+      this.simplex(A, error, status).then((result) => {
+        if (result) {
+          // Parse solution into usable state
+          resolve(this.parseSolution(A, state));
+        } else {
+          // No solution found
+          resolve(result === false ? null : undefined);
+        }
+      });
+    });
   }
 
   /** Convert state into canonical tableau */
@@ -359,80 +380,102 @@ export class SimplexUtility {
   }
 
   /** Solve the canonical tableau using the simplex method */
-  static simplex(A: Rational[][], error = true): boolean {
-    const start = Date.now();
-    let check = true;
+  static async simplex(
+    A: Rational[][],
+    error = true,
+    status = new Subject<[number, number]>()
+  ): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      const start = Date.now();
+      let p = 1;
+      let check = true;
 
-    while (true) {
-      let c: number = null;
-      const O = A[0];
-      for (let i = 0; i < O.length - 1; i++) {
-        if (c === null || O[i].lt(O[c])) {
-          c = i;
+      while (true) {
+        let c: number = null;
+        const O = A[0];
+        for (let i = 0; i < O.length - 1; i++) {
+          if (c === null || O[i].lt(O[c])) {
+            c = i;
+          }
+        }
+
+        if (!O[c].lt(Rational.zero)) {
+          resolve(true);
+          return;
+        }
+
+        this.pivotCol(A, c).then((result) => {
+          if (result) {
+            const time = Date.now() - start;
+            status.next([p++, time]);
+            if (check && time > 5000) {
+              if (error && confirm(WARNING_HANG)) {
+                check = false;
+              } else {
+                resolve(null);
+                return;
+              }
+            }
+          } else {
+            resolve(false);
+            return;
+          }
+        });
+        if (!this.pivotCol(A, c)) {
+          resolve(false);
+          return;
         }
       }
-
-      if (!O[c].lt(Rational.zero)) {
-        return true;
-      }
-
-      if (!this.pivotCol(A, c)) {
-        return false;
-      }
-
-      if (check && Date.now() - start > 5000) {
-        if (error && confirm(WARNING_HANG)) {
-          check = false;
-        } else {
-          return null;
-        }
-      }
-    }
+    });
   }
 
   /** Pivot a column of the tableau */
-  static pivotCol(A: Rational[][], c: number): boolean {
-    const x = A[0].length - 1;
-    let r: number = null;
-    let rN: Rational = null;
-    for (let i = 1; i < A.length; i++) {
-      const R = A[i];
-      if (R[c].gt(Rational.zero)) {
-        const ratio = R[x].div(R[c]);
-        if (rN === null || ratio.lt(rN)) {
-          r = i;
-          rN = ratio;
+  static async pivotCol(A: Rational[][], c: number): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      const x = A[0].length - 1;
+      let r: number = null;
+      let rN: Rational = null;
+      for (let i = 1; i < A.length; i++) {
+        const R = A[i];
+        if (R[c].gt(Rational.zero)) {
+          const ratio = R[x].div(R[c]);
+          if (rN === null || ratio.lt(rN)) {
+            r = i;
+            rN = ratio;
+          }
         }
       }
-    }
 
-    if (r === null) {
-      return false;
-    }
+      if (r === null) {
+        resolve(false);
+      }
 
-    return this.pivot(A, c, r);
+      this.pivot(A, c, r).then((result) => resolve(result));
+    });
   }
 
   /** Performs a simplex pivot operation */
-  static pivot(A: Rational[][], c: number, r: number): boolean {
-    // Multiply pivot row by reciprocal of pivot element
-    const P = A[r];
-    const reciprocal = P[c].reciprocal();
-    for (let i = 0; i < P.length; i++) {
-      P[i] = P[i].mul(reciprocal);
-    }
+  static async pivot(A: Rational[][], c: number, r: number): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      // Multiply pivot row by reciprocal of pivot element
+      const P = A[r];
+      const reciprocal = P[c].reciprocal();
+      for (let i = 0; i < P.length; i++) {
+        P[i] = P[i].mul(reciprocal);
+      }
 
-    // Add multiples of pivot row to other rows to change pivot column to 0
-    for (let i = 0; i < A.length; i++) {
-      if (i !== r && A[i][c].nonzero()) {
-        const R = A[i];
-        const factor = R[c];
-        for (let j = 0; j < R.length; j++) {
-          R[j] = R[j].sub(P[j].mul(factor));
+      // Add multiples of pivot row to other rows to change pivot column to 0
+      for (let i = 0; i < A.length; i++) {
+        if (i !== r && A[i][c].nonzero()) {
+          const R = A[i];
+          const factor = R[c];
+          for (let j = 0; j < R.length; j++) {
+            R[j] = R[j].sub(P[j].mul(factor));
+          }
         }
       }
-    }
-    return true;
+      resolve(true);
+    });
   }
 
   /** Parse solution from solved tableau */

@@ -1385,4 +1385,7 @@
     </tr>
   </tbody>
 </table>
-<span>{{ Simplex.result }}</span>
+<ng-container *ngIf="state">
+  <span>{{ state.result }}</span>
+  <span>{{ state.pivots }}</span>
+</ng-container>

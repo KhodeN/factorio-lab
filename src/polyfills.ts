@@ -68,3 +68,7 @@ import bigInt from 'big-integer';
 if (typeof BigInt === 'undefined') {
   window.BigInt = bigInt as any;
 }
+
+BigInt.prototype['toJSON'] = function (): string {
+  return `${this.toString()}n`;
+};

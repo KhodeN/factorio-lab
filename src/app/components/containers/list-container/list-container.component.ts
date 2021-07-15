@@ -24,9 +24,10 @@ import { State } from '~/store';
 import * as Factories from '~/store/factories';
 import * as Items from '~/store/items';
 import * as Preferences from '~/store/preferences';
-import * as Products from '~/store/products';
 import * as Recipes from '~/store/recipes';
 import * as Settings from '~/store/settings';
+import * as Solution from '~/store/solution';
+import { solutionState, SolutionState } from '~/store/solution';
 import { ListComponent } from './list/list.component';
 
 @Component({
@@ -42,6 +43,7 @@ export class ListContainerComponent implements OnInit {
   @Input() selected: string;
   @Input() steps: Step[];
 
+  status$: Observable<SolutionState>;
   data$: Observable<Dataset>;
   itemSettings$: Observable<Items.ItemsState>;
   itemRaw$: Observable<Items.ItemsState>;
@@ -69,8 +71,10 @@ export class ListContainerComponent implements OnInit {
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
+    this.store.select(solutionState).subscribe((s) => console.log('sub'));
+    this.status$ = this.store.select(solutionState);
     if (!this.steps) {
-      this.steps$ = this.store.select(Products.getSteps);
+      this.steps$ = this.store.select(Solution.getSteps);
     }
     this.data$ = this.store.select(Recipes.getAdjustedDataset);
     this.itemSettings$ = this.store.select(Items.getItemSettings);

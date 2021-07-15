@@ -9,11 +9,13 @@ import { preferencesReducer, PreferencesState } from './preferences';
 import { ProductsState, productsReducer } from './products';
 import { RecipesState, recipesReducer } from './recipes';
 import { SettingsState, settingsReducer } from './settings';
+import { solutionReducer, SolutionState } from './solution';
 import { storageMetaReducer } from './storage.reducer';
 
 export interface State {
   datasetsState: DatasetsState;
   productsState: ProductsState;
+  solutionState: SolutionState;
   itemsState: ItemsState;
   recipesState: RecipesState;
   factoriesState: FactoriesState;
@@ -24,6 +26,7 @@ export interface State {
 export const reducers: ActionReducerMap<State> = {
   datasetsState: datasetsReducer,
   productsState: productsReducer,
+  solutionState: solutionReducer,
   itemsState: itemsReducer,
   recipesState: recipesReducer,
   factoriesState: factoriesReducer,

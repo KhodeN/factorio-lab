@@ -1,4 +1,5 @@
 <lab-list
+  [state]="status$ | async"
   [mode]="mode"
   [selected]="selected"
   [data]="data$ | async"

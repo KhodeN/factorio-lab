@@ -150,16 +150,20 @@ export class RateUtility {
   }
 
   static calculateOutputs(steps: Step[], data: Dataset): Step[] {
-    for (const step of steps.filter((s) => s.recipeId)) {
-      const recipe = data.recipeR[step.recipeId];
-      step.outputs = {};
-      for (const id of Object.keys(recipe.out)) {
-        const val = recipe.out[id].mul(step.factories).div(recipe.time);
-        const outStep = steps.find((s) => s.itemId === id);
-        step.outputs[id] = val.div(outStep.items);
+    try {
+      for (const step of steps.filter((s) => s.recipeId)) {
+        const recipe = data.recipeR[step.recipeId];
+        step.outputs = {};
+        for (const id of Object.keys(recipe.out)) {
+          const val = recipe.out[id].mul(step.factories).div(recipe.time);
+          const outStep = steps.find((s) => s.itemId === id);
+          step.outputs[id] = val.div(outStep.items);
+        }
       }
+      return steps;
+    } catch {
+      return [];
     }
-    return steps;
   }
 
   static displayRate(steps: Step[], displayRate: DisplayRate): Step[] {

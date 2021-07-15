@@ -23,6 +23,7 @@ import * as Items from '~/store/items';
 import * as Products from '~/store/products';
 import * as Recipes from '~/store/recipes';
 import { getDisplayRate, SetDisplayRateAction } from '~/store/settings';
+import { getProducts, getProductSteps } from '~/store/solution';
 import { ProductsComponent } from './products/products.component';
 
 @Component({
@@ -46,8 +47,8 @@ export class ProductsContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.data$ = this.store.select(Recipes.getAdjustedDataset);
-    this.productSteps$ = this.store.select(Products.getProductSteps);
-    this.products$ = this.store.select(Products.getProducts);
+    this.productSteps$ = this.store.select(getProductSteps);
+    this.products$ = this.store.select(getProducts);
     this.itemSettings$ = this.store.select(Items.getItemSettings);
     this.recipeSettings$ = this.store.select(Recipes.getRecipeSettings);
     this.factories$ = this.store.select(Factories.getFactorySettings);

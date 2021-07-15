@@ -34,6 +34,7 @@ import { ItemsState } from '~/store/items';
 import { ColumnsState } from '~/store/preferences';
 import { RecipesState } from '~/store/recipes';
 import { SettingsState } from '~/store/settings';
+import { SolutionState } from '~/store/solution';
 import { ExportUtility, RecipeUtility, SimplexUtility } from '~/utilities';
 import { RecipeSettingsComponent } from '../../recipe-settings.component';
 
@@ -60,6 +61,14 @@ export class ListComponent
   extends RecipeSettingsComponent
   implements OnInit, OnChanges, AfterViewInit
 {
+  _state: SolutionState;
+  @Input() set state(value: SolutionState) {
+    console.log('update state');
+    this._state = value;
+  }
+  get state(): SolutionState {
+    return this._state;
+  }
   @Input() itemSettings: ItemsState;
   @Input() itemRaw: ItemsState;
   @Input() recipeRaw: RecipesState;

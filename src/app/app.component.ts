@@ -15,7 +15,7 @@ import {
 } from './models';
 import { ErrorService, RouterService, StateService } from './services';
 import { State } from './store';
-import { getProducts } from './store/products';
+import { getBaseProducts } from './store/products';
 import { getDataset, getDatasets, getIsDsp } from './store/settings';
 
 @Component({
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.datasets$ = this.store.select(getDatasets);
     this.data$ = this.store.select(getDataset);
-    this.products$ = this.store.select(getProducts);
+    this.products$ = this.store.select(getBaseProducts);
     this.store.select(getIsDsp).subscribe((dsp) => {
       this.title = dsp ? TITLE_DSP : TITLE_LAB;
       this.titleService.setTitle(`${APP} | ${this.title}`);
