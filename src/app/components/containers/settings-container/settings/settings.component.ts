@@ -188,6 +188,9 @@ export class SettingsComponent implements OnInit, OnChanges {
       case Game.Satisfactory:
         this.setBase.emit('sfy');
         break;
+      case Game.ReFactory:
+        this.setBase.emit('rf');
+        break;
     }
   }
 

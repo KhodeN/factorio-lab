@@ -58,5 +58,9 @@ export function columnOptions(game: Game): IdName<Column>[] {
       return result.filter(
         (i) => i.id !== Column.Beacons && i.id !== Column.Pollution
       );
+    case Game.ReFactory:
+      return result.filter(
+        (i) => i.id !== Column.Beacons && i.id !== Column.Pollution
+      );
   }
 }

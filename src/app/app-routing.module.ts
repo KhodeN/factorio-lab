@@ -33,6 +33,10 @@ const routes: Routes = [
     redirectTo: '/list?s=sfy&v=1',
   },
   {
+    path: 'rf',
+    redirectTo: '/list?s=rf&v=1',
+  },
+  {
     path: '**',
     redirectTo: 'list',
   },

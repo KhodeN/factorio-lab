@@ -12,6 +12,7 @@ import {
   TITLE_DSP,
   TITLE_LAB,
   TITLE_SFY,
+  TITLE_RF,
   APP,
   MatrixResult,
   MatrixResultType,
@@ -96,6 +97,10 @@ export class AppComponent implements OnInit {
         case Game.Satisfactory:
           this.title = TITLE_SFY;
           this.homeHref = 'satisfactory';
+          break;
+        case Game.ReFactory:
+          this.title = TITLE_RF;
+          this.homeHref = 'refactory';
           break;
       }
       this.titleService.setTitle(`${APP} | ${this.title}`);

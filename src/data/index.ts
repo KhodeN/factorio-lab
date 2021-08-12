@@ -27,6 +27,7 @@ export const data: AppData = {
     { id: 'xan', name: 'Xander Mod', game: Game.Factorio },
     { id: 'dsp', name: 'Dyson Sphere Program', game: Game.DysonSphereProgram },
     { id: 'sfy', name: 'Satisfactory', game: Game.Satisfactory },
+    { id: 'rf', name: 'ReFactory', game: Game.ReFactory },
   ],
   mods: [
     {
@@ -77,5 +78,6 @@ export const data: AppData = {
     'ang',
     'msc',
     'sfy',
+    'rf',
   ],
 };

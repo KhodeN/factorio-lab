@@ -90,6 +90,11 @@ export const getDefaults = createSelector(
         }
         case Game.Satisfactory: {
           moduleRank = m.moduleRank;
+          break;
+        }
+        case Game.ReFactory: {
+          moduleRank = m.moduleRank;
+          break;
         }
       }
       const defaults: Defaults = {

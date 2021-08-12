@@ -6,6 +6,7 @@ export const APP = 'FactorioLab';
 export const TITLE_LAB = 'Factorio Calculator';
 export const TITLE_DSP = 'Dyson Sphere Program Calculator';
 export const TITLE_SFY = 'Satisfactory Calculator';
+export const TITLE_RF = 'ReFactory Calculator';
 export const ERROR_SIMPLEX = `No solution found. Check your disabled recipes to ensure a solution is feasible.
 
 E.G.: If one iron plate requires two gears, and one gear requires two iron plates, a solution for iron plates is not feasible.`;

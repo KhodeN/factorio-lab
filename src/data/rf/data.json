@@ -1,0 +1,166 @@
+{
+  "categories": [
+    {
+      "id": "resources",
+      "name": "Resources"
+    },
+    {
+      "id": "buildings",
+      "name": "Buildings"
+    }
+  ],
+  "icons": [
+    {
+      "color": "#FFFFFF",
+      "id": "resources",
+      "position": "0px 0px"
+    },
+    {
+      "color": "#FEFEFE",
+      "id": "buildings",
+      "position": "-64px 0px"
+    },
+    {
+      "color": "#081639",
+      "id": "iron-ore",
+      "position": "0px 0px"
+    },
+    {
+      "color": "#081639",
+      "id": "copper-ore",
+      "position": "0px -64px"
+    },
+    {
+      "color": "#081639",
+      "id": "iron-plate",
+      "position": "-64px 0px"
+    },
+    {
+      "color": "#081639",
+      "id": "copper-plate",
+      "position": "-64px -64px"
+    },
+    {
+      "color": "#081639",
+      "id": "electronic",
+      "position": "-128px 0px"
+    }
+  ],
+  "items": [
+    {
+      "category": "resources",
+      "id": "iron-ore",
+      "name": "Iron ore",
+      "row": 0,
+      "stack": 200
+    },
+    {
+      "category": "resources",
+      "id": "copper-ore",
+      "name": "Copper ore",
+      "row": 0,
+      "stack": 200
+    },
+    {
+      "category": "resources",
+      "id": "iron-plate",
+      "name": "Iron plate",
+      "row": 0,
+      "stack": 200
+    },
+    {
+      "category": "resources",
+      "id": "copper-plate",
+      "name": "Copper plate",
+      "row": 0,
+      "stack": 200
+    },
+    {
+      "category": "resources",
+      "id": "electronic",
+      "name": "Electronic component",
+      "row": 0,
+      "stack": 200
+    },
+    {
+      "category": "buildings",
+      "id": "factory",
+      "name": "Test factory",
+      "row": 0,
+      "stack": 1,
+      "factory": {
+        "speed": 1,
+        "type": "electric",
+        "usage": 10,
+        "drain": 1
+      }
+    },
+    {
+      "category": "buildings",
+      "id": "belt",
+      "name": "Belt",
+      "row": 0,
+      "stack": 1,
+      "belt": {
+        "speed": 3
+      },
+      "module": {
+        "consumption": 0,
+        "speed": 0
+      }
+    }
+  ],
+  "recipes": [
+    {
+      "id": "iron-plate",
+      "name": "Iron ingot",
+      "in": {
+        "iron-ore": 2
+      },
+      "time": 2,
+      "producers": [
+        "factory"
+      ]
+    },
+    {
+      "id": "copper-plate",
+      "name": "Copper ingot",
+      "in": {
+        "copper-ore": 2
+      },
+      "time": 2,
+      "producers": [
+        "factory"
+      ]
+    },
+    {
+      "id": "electronic",
+      "name": "Electronic components",
+      "in": {
+        "copper-plate": 5,
+        "iron-plate": 2
+      },
+      "time": 2,
+      "producers": [
+        "factory"
+      ]
+    }
+  ],
+  "defaults": {
+    "modIds": [],
+    "minBelt": "belt",
+    "maxBelt": "belt",
+    "fuel": "",
+    "disabledRecipes": [],
+    "minFactoryRank": [
+      "factory"
+    ],
+    "maxFactoryRank": [
+      "factoroy"
+    ],
+    "moduleRank": []
+  },
+  "limitations": {
+    "productivity-module": []
+  }
+}

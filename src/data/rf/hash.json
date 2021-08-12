@@ -1,0 +1,20 @@
+{
+  "items": [
+    "iron-ore",
+    "iron-plate",
+    "copper-ore",
+    "copper-plate",
+    "factory"
+  ],
+  "beacons": [],
+  "belts": [
+    "belt"
+  ],
+  "fuels": [],
+  "wagons": [],
+  "factories": [
+    "factory"
+  ],
+  "modules": [],
+  "recipes": []
+}
