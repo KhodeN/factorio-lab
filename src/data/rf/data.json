@@ -5,162 +5,1825 @@
       "name": "Resources"
     },
     {
-      "id": "buildings",
-      "name": "Buildings"
+      "id": "entities",
+      "name": "Entities"
     }
   ],
+  "defaults": {
+    "disabledRecipes": [
+      "IronPlate_alternative",
+      "CopperPlate_alternative",
+      "WolframOre_alternative",
+      "CarbonBrick_alternative",
+      "WaterClear_alternative"
+    ],
+    "maxBelt": "belt.belt1",
+    "maxFactoryRank": [
+      "constructor.1"
+    ],
+    "minBelt": "belt.belt1",
+    "minFactoryRank": [
+      "constructor.1"
+    ],
+    "modIds": []
+  },
   "icons": [
     {
-      "color": "#FFFFFF",
-      "id": "resources",
+      "color": "#47596e",
+      "id": "IronOre",
       "position": "0px 0px"
     },
     {
-      "color": "#FEFEFE",
-      "id": "buildings",
+      "color": "#4a606f",
+      "id": "IronPlate",
       "position": "-64px 0px"
     },
     {
-      "color": "#081639",
-      "id": "iron-ore",
-      "position": "0px 0px"
+      "color": "#4b596b",
+      "id": "IronDetails",
+      "position": "-128px 0px"
     },
     {
-      "color": "#081639",
-      "id": "copper-ore",
+      "color": "#76442f",
+      "id": "CopperOre",
+      "position": "-192px 0px"
+    },
+    {
+      "color": "#83563f",
+      "id": "CopperPlate",
+      "position": "-256px 0px"
+    },
+    {
+      "color": "#503f41",
+      "id": "CopperCable",
+      "position": "-320px 0px"
+    },
+    {
+      "color": "#655e48",
+      "id": "StoneOre",
+      "position": "-384px 0px"
+    },
+    {
+      "color": "#484436",
+      "id": "StoneBrick",
+      "position": "-448px 0px"
+    },
+    {
+      "color": "#5c5b53",
+      "id": "Concrete",
+      "position": "-512px 0px"
+    },
+    {
+      "color": "#777888",
+      "id": "SteelPlate",
+      "position": "-576px 0px"
+    },
+    {
+      "color": "#55555a",
+      "id": "SteelDetails",
+      "position": "-640px 0px"
+    },
+    {
+      "color": "#4b4c54",
+      "id": "SteelGirder",
+      "position": "-704px 0px"
+    },
+    {
+      "color": "#545c53",
+      "id": "WolframOre",
+      "position": "-768px 0px"
+    },
+    {
+      "color": "#616a65",
+      "id": "WolframPlate",
+      "position": "-832px 0px"
+    },
+    {
+      "color": "#4e6881",
+      "id": "IronAmmo",
+      "position": "-896px 0px"
+    },
+    {
+      "color": "#6e5c54",
+      "id": "SteelAmmo",
       "position": "0px -64px"
     },
     {
-      "color": "#081639",
-      "id": "iron-plate",
-      "position": "-64px 0px"
-    },
-    {
-      "color": "#081639",
-      "id": "copper-plate",
+      "color": "#331f14",
+      "id": "Bullet",
       "position": "-64px -64px"
     },
     {
-      "color": "#081639",
-      "id": "electronic",
-      "position": "-128px 0px"
+      "color": "#513f3c",
+      "id": "BulletAir",
+      "position": "-128px -64px"
+    },
+    {
+      "color": "#433e21",
+      "id": "Electronic",
+      "position": "-192px -64px"
+    },
+    {
+      "color": "#5e6839",
+      "id": "Acid",
+      "position": "-256px -64px"
+    },
+    {
+      "color": "#405a46",
+      "id": "Microcircuit",
+      "position": "-320px -64px"
+    },
+    {
+      "color": "#284f68",
+      "id": "EnergyBattery",
+      "position": "-384px -64px"
+    },
+    {
+      "color": "#655232",
+      "id": "Wood",
+      "position": "-448px -64px"
+    },
+    {
+      "color": "#474564",
+      "id": "CarbonBrick",
+      "position": "-512px -64px"
+    },
+    {
+      "color": "#445785",
+      "id": "Crystal",
+      "position": "-576px -64px"
+    },
+    {
+      "color": "#6c94c5",
+      "id": "SiliconPlate",
+      "position": "-640px -64px"
+    },
+    {
+      "color": "#638b90",
+      "id": "Glass",
+      "position": "-704px -64px"
+    },
+    {
+      "color": "#576b6d",
+      "id": "OpticalResonator",
+      "position": "-768px -64px"
+    },
+    {
+      "color": "#3d3c38",
+      "id": "FiberGlass",
+      "position": "-832px -64px"
+    },
+    {
+      "color": "#3e6233",
+      "id": "IntegralCircuit",
+      "position": "-896px -64px"
+    },
+    {
+      "color": "#3c4974",
+      "id": "WaterOre",
+      "position": "0px -128px"
+    },
+    {
+      "color": "#355d67",
+      "id": "WaterClear",
+      "position": "-64px -128px"
+    },
+    {
+      "color": "#524b18",
+      "id": "Mud",
+      "position": "-128px -128px"
+    },
+    {
+      "color": "#9b8e49",
+      "id": "Oxygen",
+      "position": "-192px -128px"
+    },
+    {
+      "color": "#404131",
+      "id": "Oil",
+      "position": "-256px -128px"
+    },
+    {
+      "color": "#574846",
+      "id": "Octane",
+      "position": "-320px -128px"
+    },
+    {
+      "color": "#8f2419",
+      "id": "EngineFuel",
+      "position": "-384px -128px"
+    },
+    {
+      "color": "#10536a",
+      "id": "Rubber",
+      "position": "-448px -128px"
+    },
+    {
+      "color": "#554b3d",
+      "id": "PowerCable",
+      "position": "-512px -128px"
+    },
+    {
+      "color": "#373837",
+      "id": "Tire",
+      "position": "-576px -128px"
+    },
+    {
+      "color": "#59482e",
+      "id": "Explosive",
+      "position": "-640px -128px"
+    },
+    {
+      "color": "#443f7c",
+      "id": "Plastic",
+      "position": "-704px -128px"
+    },
+    {
+      "color": "#745ea",
+      "id": "PlasticExplosive",
+      "position": "-768px -128px"
+    },
+    {
+      "color": "#234989",
+      "id": "PolymerBrick",
+      "position": "-832px -128px"
+    },
+    {
+      "color": "#453d8a",
+      "id": "CarbonNano",
+      "position": "-896px -128px"
+    },
+    {
+      "color": "#32404b",
+      "id": "IronDust",
+      "position": "0px -192px"
+    },
+    {
+      "color": "#513227",
+      "id": "CopperDust",
+      "position": "-64px -192px"
+    },
+    {
+      "color": "#4c493b",
+      "id": "StoneDust",
+      "position": "-128px -192px"
+    },
+    {
+      "color": "#8680b5",
+      "id": "CarbonDust",
+      "position": "-192px -192px"
+    },
+    {
+      "color": "#495d90",
+      "id": "SiliconDust",
+      "position": "-256px -192px"
+    },
+    {
+      "color": "#95ccfe",
+      "id": "CrystalOre",
+      "position": "-320px -192px"
+    },
+    {
+      "color": "#816537",
+      "id": "WoodOre",
+      "position": "-384px -192px"
+    },
+    {
+      "color": "#6c4931",
+      "id": "ResearchSampleOre",
+      "position": "-448px -192px"
+    },
+    {
+      "color": "#466c27",
+      "id": "ResearchSampleForest",
+      "position": "-512px -192px"
+    },
+    {
+      "color": "#494984",
+      "id": "ResearchSampleCrystal",
+      "position": "-576px -192px"
+    },
+    {
+      "color": "#235263",
+      "id": "ResearchSampleWater",
+      "position": "-640px -192px"
+    },
+    {
+      "color": "#412525",
+      "id": "ResearchSampleOil",
+      "position": "-704px -192px"
+    },
+    {
+      "color": "#354667",
+      "id": "ResearchSamplePlasma",
+      "position": "-768px -192px"
+    },
+    {
+      "color": "#30473a",
+      "id": "ResearchSamplePolymer",
+      "position": "-832px -192px"
+    },
+    {
+      "color": "#dfda29",
+      "id": "ResearchSampleTotem",
+      "position": "-896px -192px"
+    },
+    {
+      "color": "#e64432",
+      "id": "ResearchSampleAncientDefence",
+      "position": "0px -256px"
+    },
+    {
+      "color": "#6ce229",
+      "id": "ResearchSampleAncientProduction",
+      "position": "-64px -256px"
+    },
+    {
+      "color": "#25b6ed",
+      "id": "ResearchSampleAncientTechnology",
+      "position": "-128px -256px"
+    },
+    {
+      "color": "#764fac",
+      "id": "AncientRare",
+      "position": "-192px -256px"
+    },
+    {
+      "color": "#597481",
+      "id": "AncientRare2",
+      "position": "-256px -256px"
+    },
+    {
+      "color": "#a16a46",
+      "id": "AncientRare3",
+      "position": "-320px -256px"
+    },
+    {
+      "color": "#694d4d",
+      "id": "AncientRare4",
+      "position": "-384px -256px"
+    },
+    {
+      "color": "#ffffff",
+      "id": "Sprout",
+      "position": "-448px -256px"
+    },
+    {
+      "color": "#dfdfdf",
+      "id": "Poison",
+      "position": "-512px -256px"
+    },
+    {
+      "color": "#625e63",
+      "id": "belt.belt1",
+      "position": "0px -512px"
+    },
+    {
+      "color": "#60695f",
+      "id": "sawmill.lvl1",
+      "position": "-64px -576px"
+    },
+    {
+      "color": "#667065",
+      "id": "sawmill.lvl2",
+      "position": "-128px -576px"
+    },
+    {
+      "color": "#6e6953",
+      "id": "mining.drill.lvl1",
+      "position": "-192px -576px"
+    },
+    {
+      "color": "#635a3f",
+      "id": "mining.drill.lvl2",
+      "position": "-256px -576px"
+    },
+    {
+      "color": "#593c2c",
+      "id": "mining.drill.lvl3",
+      "position": "-320px -576px"
+    },
+    {
+      "color": "#6e6349",
+      "id": "mining.stonecrusher.lvl1",
+      "position": "-384px -576px"
+    },
+    {
+      "color": "#7e6c51",
+      "id": "mining.stonecrusher.lvl2",
+      "position": "-448px -576px"
+    },
+    {
+      "color": "#7b634b",
+      "id": "mining.stonecrusher.lvl3",
+      "position": "-512px -576px"
+    },
+    {
+      "color": "#776e57",
+      "id": "mining.pumpjack.lvl1",
+      "position": "-576px -576px"
+    },
+    {
+      "color": "#746b53",
+      "id": "mining.pumpjack.lvl2",
+      "position": "-640px -576px"
+    },
+    {
+      "color": "#6b6051",
+      "id": "mining.pumpjack.lvl3",
+      "position": "-704px -576px"
+    },
+    {
+      "color": "#696d5e",
+      "id": "mining.water.1",
+      "position": "-768px -576px"
+    },
+    {
+      "color": "#858478",
+      "id": "mining.swamp.1",
+      "position": "-832px -576px"
+    },
+    {
+      "color": "#706748",
+      "id": "smelter.1",
+      "position": "-896px -576px"
+    },
+    {
+      "color": "#615641",
+      "id": "foundry.1",
+      "position": "0px -640px"
+    },
+    {
+      "color": "#565d4f",
+      "id": "constructor.1",
+      "position": "-64px -640px"
+    },
+    {
+      "color": "#787255",
+      "id": "assembler.1",
+      "position": "-128px -640px"
+    },
+    {
+      "color": "#6d735f",
+      "id": "chem.1",
+      "position": "-192px -640px"
+    },
+    {
+      "color": "#585c4f",
+      "id": "laboratory.1",
+      "position": "-256px -640px"
+    },
+    {
+      "color": "#666349",
+      "id": "miller.1",
+      "position": "-320px -640px"
+    },
+    {
+      "color": "#68777b",
+      "id": "sprinkler.1",
+      "position": "-384px -640px"
+    },
+    {
+      "color": "#474847",
+      "id": "sawmill.drone1",
+      "position": "-640px -640px"
+    },
+    {
+      "color": "#4a606f",
+      "id": "resources",
+      "position": "-64px 0px"
+    },
+    {
+      "color": "#565d4f",
+      "id": "entities",
+      "position": "-64px -640px"
     }
   ],
   "items": [
     {
-      "category": "resources",
-      "id": "iron-ore",
+      "id": "IronOre",
       "name": "Iron ore",
-      "row": 0,
-      "stack": 200
+      "category": "resources",
+      "stack": 1,
+      "row": 1
     },
     {
+      "id": "IronPlate",
+      "name": "Iron plates",
       "category": "resources",
-      "id": "copper-ore",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "IronDetails",
+      "name": "Iron parts",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "CopperOre",
       "name": "Copper ore",
-      "row": 0,
-      "stack": 200
-    },
-    {
       "category": "resources",
-      "id": "iron-plate",
-      "name": "Iron plate",
-      "row": 0,
-      "stack": 200
-    },
-    {
-      "category": "resources",
-      "id": "copper-plate",
-      "name": "Copper plate",
-      "row": 0,
-      "stack": 200
-    },
-    {
-      "category": "resources",
-      "id": "electronic",
-      "name": "Electronic component",
-      "row": 0,
-      "stack": 200
-    },
-    {
-      "category": "buildings",
-      "id": "factory",
-      "name": "Test factory",
-      "row": 0,
       "stack": 1,
-      "factory": {
-        "speed": 1,
-        "type": "electric",
-        "usage": 10,
-        "drain": 1
-      }
+      "row": 1
     },
     {
-      "category": "buildings",
-      "id": "belt",
-      "name": "Belt",
-      "row": 0,
+      "id": "CopperPlate",
+      "name": "Copper plates",
+      "category": "resources",
       "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "CopperCable",
+      "name": "Copper wire",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "StoneOre",
+      "name": "Granite",
+      "category": "resources",
+      "stack": 1,
+      "row": 1
+    },
+    {
+      "id": "StoneBrick",
+      "name": "Building slabs",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "Concrete",
+      "name": "Concrete",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "SteelPlate",
+      "name": "Steel plates",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "SteelDetails",
+      "name": "Steel parts",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "SteelGirder",
+      "name": "Steel beams",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "WolframOre",
+      "name": "Wolframite",
+      "category": "resources",
+      "stack": 1,
+      "row": 1
+    },
+    {
+      "id": "WolframPlate",
+      "name": "Tungsten",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "IronAmmo",
+      "name": "Shells",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "SteelAmmo",
+      "name": "Armor-piercing shells",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "BulletAir",
+      "name": "Anti-air shells",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "Electronic",
+      "name": "Electronics",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "Acid",
+      "name": "Acid",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "Microcircuit",
+      "name": "Chips",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "EnergyBattery",
+      "name": "Power cells",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "Wood",
+      "name": "Timber",
+      "category": "resources",
+      "stack": 1,
+      "row": 1
+    },
+    {
+      "id": "CarbonBrick",
+      "name": "Carbon blocks",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "Crystal",
+      "name": "Crystals",
+      "category": "resources",
+      "stack": 1,
+      "row": 1
+    },
+    {
+      "id": "SiliconPlate",
+      "name": "Silicon wafer",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "Glass",
+      "name": "Glass",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "OpticalResonator",
+      "name": "Optical resonators",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "WaterOre",
+      "name": "Water",
+      "category": "resources",
+      "stack": 1,
+      "row": 1
+    },
+    {
+      "id": "WaterClear",
+      "name": "Distilled water",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "Mud",
+      "name": "Mud",
+      "category": "resources",
+      "stack": 1,
+      "row": 1
+    },
+    {
+      "id": "Oxygen",
+      "name": "Oxygen",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "Oil",
+      "name": "Oil",
+      "category": "resources",
+      "stack": 1,
+      "row": 1
+    },
+    {
+      "id": "Octane",
+      "name": "Combustible mixtures",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "EngineFuel",
+      "name": "Fuel",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "Rubber",
+      "name": "Rubber",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "PowerCable",
+      "name": "Power cable",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "Tire",
+      "name": "Tire",
+      "category": "resources",
+      "stack": 1,
+      "row": 0
+    },
+    {
+      "id": "Explosive",
+      "name": "Explosive compound",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "Plastic",
+      "name": "Plastic",
+      "category": "resources",
+      "stack": 1,
+      "row": 3
+    },
+    {
+      "id": "PlasticExplosive",
+      "name": "Plastic explosive",
+      "category": "resources",
+      "stack": 1,
+      "row": 0
+    },
+    {
+      "id": "IronDust",
+      "name": "Iron powder",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "CopperDust",
+      "name": "Copper powder",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "StoneDust",
+      "name": "Granite powder",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "CarbonDust",
+      "name": "Carbon powder",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "SiliconDust",
+      "name": "Silicon powder",
+      "category": "resources",
+      "stack": 1,
+      "row": 2
+    },
+    {
+      "id": "CrystalOre",
+      "name": "Raw crystals",
+      "category": "resources",
+      "stack": 1,
+      "row": 1
+    },
+    {
+      "id": "WoodOre",
+      "name": "Lumber",
+      "category": "resources",
+      "stack": 1,
+      "row": 1
+    },
+    {
+      "id": "Sprout",
+      "name": "Irrigation",
+      "category": "resources",
+      "stack": 1,
+      "row": 4
+    },
+    {
+      "id": "belt.belt1",
+      "name": "Сonveyor",
+      "category": "entities",
+      "stack": 1,
+      "row": 3,
       "belt": {
         "speed": 3
-      },
-      "module": {
-        "consumption": 0,
-        "speed": 0
+      }
+    },
+    {
+      "id": "sawmill.lvl1",
+      "name": "Sawing Machine (lev. 1)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "Sawmill",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "sawmill.lvl2",
+      "name": "Sawing Machine (lev. 2)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "Sawmill",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.drill.lvl1",
+      "name": "Mining drill (lev. 1)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningUnderground",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.drill.lvl2",
+      "name": "Mining drill (lev. 2)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningUnderground",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.drill.lvl3",
+      "name": "Mining drill (lev. 3)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningUnderground",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.stonecrusher.lvl1",
+      "name": "Digger (lev. 1)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningRock",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.stonecrusher.lvl2",
+      "name": "Digger (lev. 2)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningRock",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.stonecrusher.lvl3",
+      "name": "Digger (lev. 3)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningRock",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.pumpjack.lvl1",
+      "name": "Oil rig (lev. 1)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningOil",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.pumpjack.lvl2",
+      "name": "Oil rig (lev. 2)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningOil",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.pumpjack.lvl3",
+      "name": "Oil rig (lev. 3)",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningOil",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.water.1",
+      "name": "Pump",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningWater",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "mining.swamp.1",
+      "name": "Drainer",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "MiningMud",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "smelter.1",
+      "name": "Smelter",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "Smelter",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "foundry.1",
+      "name": "Foundry",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "Foundry",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "constructor.1",
+      "name": "Moulding plant",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "Constructor",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "assembler.1",
+      "name": "Assembling plant",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "Assembler",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "chem.1",
+      "name": "Recombiner",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "Chem",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "laboratory.1",
+      "name": "Laboratory",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "Laboratory",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "miller.1",
+      "name": "Grinder",
+      "category": "entities",
+      "stack": 1,
+      "row": 1,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "Miller",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "sprinkler.1",
+      "name": "Sprinkler",
+      "category": "entities",
+      "stack": 1,
+      "row": 3,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "Sprinkler",
+        "modules": 0,
+        "usage": 10
+      }
+    },
+    {
+      "id": "sawmill.drone1",
+      "name": "Sawing Drone",
+      "category": "entities",
+      "stack": 1,
+      "row": 0,
+      "factory": {
+        "type": "electric",
+        "speed": 1,
+        "category": "drones",
+        "modules": 0,
+        "usage": 10
       }
     }
   ],
-  "recipes": [
-    {
-      "id": "iron-plate",
-      "name": "Iron ingot",
-      "in": {
-        "iron-ore": 2
-      },
-      "time": 2,
-      "producers": [
-        "factory"
-      ]
-    },
-    {
-      "id": "copper-plate",
-      "name": "Copper ingot",
-      "in": {
-        "copper-ore": 2
-      },
-      "time": 2,
-      "producers": [
-        "factory"
-      ]
-    },
-    {
-      "id": "electronic",
-      "name": "Electronic components",
-      "in": {
-        "copper-plate": 5,
-        "iron-plate": 2
-      },
-      "time": 2,
-      "producers": [
-        "factory"
-      ]
-    }
-  ],
-  "defaults": {
-    "modIds": [],
-    "minBelt": "belt",
-    "maxBelt": "belt",
-    "fuel": "",
-    "disabledRecipes": [],
-    "minFactoryRank": [
-      "factory"
-    ],
-    "maxFactoryRank": [
-      "factoroy"
-    ],
-    "moduleRank": []
-  },
   "limitations": {
     "productivity-module": []
-  }
+  },
+  "recipes": [
+    {
+      "id": "IronOre",
+      "name": "Iron ore",
+      "producers": [
+        "mining.drill.lvl1",
+        "mining.drill.lvl2",
+        "mining.drill.lvl3"
+      ],
+      "time": 3,
+      "in": {}
+    },
+    {
+      "id": "IronPlate",
+      "name": "Iron plates",
+      "producers": [
+        "smelter.1"
+      ],
+      "time": 2,
+      "in": {
+        "IronOre": 2
+      }
+    },
+    {
+      "id": "IronPlate_alternative",
+      "name": "Iron plates alternative",
+      "producers": [
+        "smelter.1"
+      ],
+      "time": 5,
+      "in": {
+        "IronDust": 4
+      },
+      "out": {
+        "IronPlate": 4
+      }
+    },
+    {
+      "id": "IronDetails",
+      "name": "Iron parts",
+      "producers": [
+        "constructor.1"
+      ],
+      "time": 5,
+      "in": {
+        "IronPlate": 2
+      },
+      "out": {
+        "IronDetails": 3
+      }
+    },
+    {
+      "id": "CopperOre",
+      "name": "Copper ore",
+      "producers": [
+        "mining.drill.lvl1",
+        "mining.drill.lvl2",
+        "mining.drill.lvl3"
+      ],
+      "time": 3,
+      "in": {}
+    },
+    {
+      "id": "CopperPlate",
+      "name": "Copper plates",
+      "producers": [
+        "smelter.1"
+      ],
+      "time": 2,
+      "in": {
+        "CopperOre": 2
+      }
+    },
+    {
+      "id": "CopperPlate_alternative",
+      "name": "Copper plates alternative",
+      "producers": [
+        "smelter.1"
+      ],
+      "time": 5,
+      "in": {
+        "CopperDust": 4
+      },
+      "out": {
+        "CopperPlate": 4
+      }
+    },
+    {
+      "id": "CopperCable",
+      "name": "Copper wire",
+      "producers": [
+        "constructor.1"
+      ],
+      "time": 5,
+      "in": {
+        "CopperPlate": 2
+      },
+      "out": {
+        "CopperCable": 4
+      }
+    },
+    {
+      "id": "StoneOre",
+      "name": "Granite",
+      "producers": [
+        "mining.stonecrusher.lvl1",
+        "mining.stonecrusher.lvl2",
+        "mining.stonecrusher.lvl3"
+      ],
+      "time": 3,
+      "in": {}
+    },
+    {
+      "id": "StoneBrick",
+      "name": "Building slabs",
+      "producers": [
+        "smelter.1"
+      ],
+      "time": 3,
+      "in": {
+        "StoneOre": 6
+      },
+      "out": {
+        "StoneBrick": 2
+      }
+    },
+    {
+      "id": "Concrete",
+      "name": "Concrete",
+      "producers": [
+        "foundry.1"
+      ],
+      "time": 4,
+      "in": {
+        "StoneDust": 5,
+        "Oil": 2
+      }
+    },
+    {
+      "id": "SteelPlate",
+      "name": "Steel plates",
+      "producers": [
+        "foundry.1"
+      ],
+      "time": 5,
+      "in": {
+        "IronPlate": 3,
+        "CarbonBrick": 2
+      },
+      "out": {
+        "SteelPlate": 2
+      }
+    },
+    {
+      "id": "SteelDetails",
+      "name": "Steel parts",
+      "producers": [
+        "constructor.1"
+      ],
+      "time": 6,
+      "in": {
+        "SteelPlate": 2
+      },
+      "out": {
+        "SteelDetails": 2
+      }
+    },
+    {
+      "id": "SteelGirder",
+      "name": "Steel beams",
+      "producers": [
+        "assembler.1"
+      ],
+      "time": 3,
+      "in": {
+        "SteelPlate": 1,
+        "SiliconDust": 3
+      }
+    },
+    {
+      "id": "WolframOre",
+      "name": "Wolframite",
+      "producers": [
+        "mining.drill.lvl1",
+        "mining.drill.lvl2",
+        "mining.drill.lvl3"
+      ],
+      "time": 3,
+      "in": {}
+    },
+    {
+      "id": "WolframOre_alternative",
+      "name": "Wolframite alternative",
+      "producers": [
+        "sawmill.drone1"
+      ],
+      "time": 10,
+      "in": {
+        "Explosive": 10
+      },
+      "out": {
+        "WolframOre": 20
+      }
+    },
+    {
+      "id": "WolframPlate",
+      "name": "Tungsten",
+      "producers": [
+        "foundry.1"
+      ],
+      "time": 10,
+      "in": {
+        "WolframOre": 1,
+        "Oxygen": 1
+      }
+    },
+    {
+      "id": "IronAmmo",
+      "name": "Shells",
+      "producers": [
+        "assembler.1"
+      ],
+      "time": 10,
+      "in": {
+        "IronPlate": 4,
+        "CarbonBrick": 3
+      },
+      "out": {
+        "IronAmmo": 10
+      }
+    },
+    {
+      "id": "SteelAmmo",
+      "name": "Armor-piercing shells",
+      "producers": [
+        "assembler.1"
+      ],
+      "time": 15,
+      "in": {
+        "SteelPlate": 8,
+        "Acid": 2
+      },
+      "out": {
+        "SteelAmmo": 10
+      }
+    },
+    {
+      "id": "BulletAir",
+      "name": "Anti-air shells",
+      "producers": [
+        "assembler.1"
+      ],
+      "time": 15,
+      "in": {
+        "CopperDust": 3,
+        "IronAmmo": 2
+      },
+      "out": {
+        "BulletAir": 5
+      }
+    },
+    {
+      "id": "Electronic",
+      "name": "Electronics",
+      "producers": [
+        "assembler.1"
+      ],
+      "time": 2,
+      "in": {
+        "IronDetails": 2,
+        "CopperCable": 5
+      }
+    },
+    {
+      "id": "Acid",
+      "name": "Acid",
+      "producers": [
+        "laboratory.1"
+      ],
+      "time": 5,
+      "in": {
+        "Wood": 3,
+        "WaterClear": 3
+      }
+    },
+    {
+      "id": "Microcircuit",
+      "name": "Chips",
+      "producers": [
+        "assembler.1"
+      ],
+      "time": 2,
+      "in": {
+        "Electronic": 2,
+        "SiliconPlate": 3
+      }
+    },
+    {
+      "id": "EnergyBattery",
+      "name": "Power cells",
+      "producers": [
+        "assembler.1"
+      ],
+      "time": 6,
+      "in": {
+        "CopperPlate": 5,
+        "Acid": 4
+      }
+    },
+    {
+      "id": "Wood",
+      "name": "Timber",
+      "producers": [
+        "sawmill.lvl1",
+        "sawmill.lvl2"
+      ],
+      "time": 5,
+      "in": {
+        "WoodOre": 1
+      },
+      "out": {
+        "Wood": 15
+      }
+    },
+    {
+      "id": "CarbonBrick",
+      "name": "Carbon blocks",
+      "producers": [
+        "smelter.1"
+      ],
+      "time": 5,
+      "in": {
+        "Wood": 2
+      }
+    },
+    {
+      "id": "CarbonBrick_alternative",
+      "name": "Carbon blocks alternative",
+      "producers": [
+        "smelter.1"
+      ],
+      "time": 6,
+      "in": {
+        "Mud": 6
+      }
+    },
+    {
+      "id": "Crystal",
+      "name": "Crystals",
+      "producers": [
+        "sawmill.lvl1",
+        "sawmill.lvl2"
+      ],
+      "time": 5,
+      "in": {
+        "CrystalOre": 1
+      },
+      "out": {
+        "Crystal": 3
+      }
+    },
+    {
+      "id": "SiliconPlate",
+      "name": "Silicon wafer",
+      "producers": [
+        "smelter.1"
+      ],
+      "time": 5,
+      "in": {
+        "Crystal": 1
+      }
+    },
+    {
+      "id": "Glass",
+      "name": "Glass",
+      "producers": [
+        "foundry.1"
+      ],
+      "time": 4,
+      "in": {
+        "SiliconDust": 5,
+        "Acid": 2
+      },
+      "out": {
+        "Glass": 3
+      }
+    },
+    {
+      "id": "OpticalResonator",
+      "name": "Optical resonators",
+      "producers": [
+        "constructor.1"
+      ],
+      "time": 5,
+      "in": {
+        "Glass": 3
+      }
+    },
+    {
+      "id": "WaterOre",
+      "name": "Water",
+      "producers": [
+        "mining.water.1"
+      ],
+      "time": 4,
+      "in": {}
+    },
+    {
+      "id": "WaterClear",
+      "name": "Distilled water",
+      "producers": [
+        "chem.1"
+      ],
+      "time": 6,
+      "in": {
+        "WaterOre": 7
+      },
+      "out": {
+        "WaterClear": 4
+      }
+    },
+    {
+      "id": "WaterClear_alternative",
+      "name": "Distilled water alternative",
+      "producers": [
+        "chem.1"
+      ],
+      "time": 4,
+      "in": {
+        "Mud": 3
+      },
+      "out": {
+        "WaterClear": 2
+      }
+    },
+    {
+      "id": "Mud",
+      "name": "Mud",
+      "producers": [
+        "mining.swamp.1"
+      ],
+      "time": 4,
+      "in": {}
+    },
+    {
+      "id": "Oxygen",
+      "name": "Oxygen",
+      "producers": [
+        "laboratory.1"
+      ],
+      "time": 8,
+      "in": {
+        "WaterClear": 2,
+        "CarbonBrick": 2
+      }
+    },
+    {
+      "id": "Oil",
+      "name": "Oil",
+      "producers": [
+        "mining.pumpjack.lvl1",
+        "mining.pumpjack.lvl2",
+        "mining.pumpjack.lvl3"
+      ],
+      "time": 10,
+      "in": {
+        "WaterOre": 3
+      }
+    },
+    {
+      "id": "Octane",
+      "name": "Combustible mixtures",
+      "producers": [
+        "chem.1"
+      ],
+      "time": 9,
+      "in": {
+        "Oil": 3
+      },
+      "out": {
+        "Octane": 2
+      }
+    },
+    {
+      "id": "EngineFuel",
+      "name": "Fuel",
+      "producers": [
+        "chem.1"
+      ],
+      "time": 6,
+      "in": {
+        "Octane": 5
+      },
+      "out": {
+        "EngineFuel": 2
+      }
+    },
+    {
+      "id": "Rubber",
+      "name": "Rubber",
+      "producers": [
+        "laboratory.1"
+      ],
+      "time": 8,
+      "in": {
+        "Oil": 2,
+        "Acid": 1
+      }
+    },
+    {
+      "id": "PowerCable",
+      "name": "Power cable",
+      "producers": [
+        "assembler.1"
+      ],
+      "time": 3,
+      "in": {
+        "CopperCable": 5,
+        "Rubber": 1
+      }
+    },
+    {
+      "id": "Tire",
+      "name": "Tire",
+      "producers": [
+        "constructor.1"
+      ],
+      "time": 8,
+      "in": {
+        "Rubber": 2
+      }
+    },
+    {
+      "id": "Explosive",
+      "name": "Explosive compound",
+      "producers": [
+        "laboratory.1"
+      ],
+      "time": 10,
+      "in": {
+        "Octane": 3,
+        "WaterClear": 1
+      }
+    },
+    {
+      "id": "Plastic",
+      "name": "Plastic",
+      "producers": [
+        "laboratory.1"
+      ],
+      "time": 8,
+      "in": {
+        "Oil": 2,
+        "CarbonDust": 1
+      }
+    },
+    {
+      "id": "PlasticExplosive",
+      "name": "Plastic explosive",
+      "producers": [
+        "laboratory.1"
+      ],
+      "time": 16,
+      "in": {
+        "Explosive": 1,
+        "Plastic": 1
+      }
+    },
+    {
+      "id": "IronDust",
+      "name": "Iron powder",
+      "producers": [
+        "miller.1"
+      ],
+      "time": 4,
+      "in": {
+        "IronOre": 2
+      },
+      "out": {
+        "IronDust": 4
+      }
+    },
+    {
+      "id": "CopperDust",
+      "name": "Copper powder",
+      "producers": [
+        "miller.1"
+      ],
+      "time": 4,
+      "in": {
+        "CopperOre": 2
+      },
+      "out": {
+        "CopperDust": 4
+      }
+    },
+    {
+      "id": "StoneDust",
+      "name": "Granite powder",
+      "producers": [
+        "miller.1"
+      ],
+      "time": 2,
+      "in": {
+        "StoneOre": 2
+      },
+      "out": {
+        "StoneDust": 4
+      }
+    },
+    {
+      "id": "CarbonDust",
+      "name": "Carbon powder",
+      "producers": [
+        "miller.1"
+      ],
+      "time": 2,
+      "in": {
+        "CarbonBrick": 1
+      },
+      "out": {
+        "CarbonDust": 4
+      }
+    },
+    {
+      "id": "SiliconDust",
+      "name": "Silicon powder",
+      "producers": [
+        "miller.1"
+      ],
+      "time": 2,
+      "in": {
+        "Crystal": 1
+      },
+      "out": {
+        "SiliconDust": 4
+      }
+    },
+    {
+      "id": "CrystalOre",
+      "name": "Raw crystals",
+      "producers": [
+        "sawmill.drone1"
+      ],
+      "time": 5,
+      "in": {}
+    },
+    {
+      "id": "WoodOre",
+      "name": "Lumber",
+      "producers": [
+        "sawmill.drone1"
+      ],
+      "time": 2,
+      "in": {}
+    },
+    {
+      "id": "Sprout",
+      "name": "Irrigation",
+      "producers": [
+        "sprinkler.1"
+      ],
+      "time": 20,
+      "in": {
+        "WaterOre": 4
+      }
+    }
+  ]
 }
