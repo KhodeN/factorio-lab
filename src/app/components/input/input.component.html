@@ -1,10 +1,11 @@
 <input
   type="text"
-  [class.narrow]="narrow"
+  [style.width.rem]="width"
   [title]="title"
   [placeholder]="placeholder"
   [ngModel]="value"
   labValidateNumber
+  [labValidateMinimum]="minimum"
   data-test="lab-input-input"
   (input)="changeValue($event)"
 />
@@ -19,6 +20,7 @@
   <button
     title="Decrease 1"
     data-test="lab-input-decrease"
+    [disabled]="isMinimum"
     (click)="decrease()"
   >
     <i class="material-icons">arrow_drop_down</i>

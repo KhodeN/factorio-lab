@@ -30,6 +30,7 @@ import {
   DisplayRateLabel,
   Game,
   PIPE,
+  IdPayload,
 } from '~/models';
 import { RouterService } from '~/services';
 import { ItemsState } from '~/store/items';
@@ -74,10 +75,10 @@ export class ListComponent
   @Input() set steps(value: Step[]) {
     this._steps = [...value];
 
-    this.router.requestHash(this.settings.baseId).subscribe((hash) => {
+    this.routerSvc.requestHash(this.settings.baseId).subscribe((hash) => {
       setTimeout(() => {
         this._steps.forEach((s) => {
-          s.href = this.router.stepHref(s, hash);
+          s.href = this.routerSvc.stepHref(s, hash);
         });
         this.ref.detectChanges();
       });
@@ -137,6 +138,7 @@ export class ListComponent
   @Output() setBeaconCount = new EventEmitter<DefaultIdPayload<string>>();
   @Output() setBeacon = new EventEmitter<DefaultIdPayload>();
   @Output() setBeaconModules = new EventEmitter<DefaultIdPayload<string[]>>();
+  @Output() setBeaconTotal = new EventEmitter<IdPayload>();
   @Output() setOverclock = new EventEmitter<DefaultIdPayload<number>>();
   @Output() setColumns = new EventEmitter<ColumnsState>();
   @Output() resetItem = new EventEmitter<string>();
@@ -165,6 +167,7 @@ export class ListComponent
   totalBelts: Entities<Rational> = {};
   totalWagons: Entities<Rational> = {};
   totalFactories: Entities<Rational> = {};
+  totalBeacons: Entities<Rational> = {};
   totalPower: string;
   totalPollution: string;
 
@@ -180,7 +183,7 @@ export class ListComponent
   constructor(
     private ref: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: RouterService
+    private routerSvc: RouterService
   ) {
     super();
   }
@@ -232,6 +235,18 @@ export class ListComponent
         }
         this.totalFactories[factory] = this.totalFactories[factory].add(
           step.factories.ceil()
+        );
+      }
+
+      // Total Beacons
+      this.totalBeacons = {};
+      for (const step of this.steps.filter((s) => s.beacons?.nonzero())) {
+        const beacon = this.recipeSettings[step.recipeId].beacon;
+        if (!this.totalBeacons.hasOwnProperty(beacon)) {
+          this.totalBeacons[beacon] = Rational.zero;
+        }
+        this.totalBeacons[beacon] = this.totalBeacons[beacon].add(
+          step.beacons.ceil()
         );
       }
     }

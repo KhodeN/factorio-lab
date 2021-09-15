@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -41,6 +42,7 @@ describe('SettingsContainerComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
+        HttpClientTestingModule,
         RouterTestingModule,
         StoreModule.forRoot(reducers, { metaReducers }),
       ],
@@ -260,6 +262,14 @@ describe('SettingsContainerComponent', () => {
     component.child.setOverclock.emit(value);
     expect(store.dispatch).toHaveBeenCalledWith(
       new Factories.SetOverclockAction(value)
+    );
+  });
+
+  it('should set the beacon receivers', () => {
+    const value = '1';
+    component.child.setBeaconReceivers.emit(value);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new Settings.SetBeaconReceiversAction(value)
     );
   });
 

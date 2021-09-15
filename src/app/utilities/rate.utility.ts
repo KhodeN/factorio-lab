@@ -6,6 +6,7 @@ import {
   Rational,
   DisplayRateVal,
   RationalRecipe,
+  RationalRecipeSettings,
 } from '~/models';
 import { ItemsState } from '~/store/items';
 import { RecipesState } from '~/store/recipes';
@@ -69,18 +70,20 @@ export class RateUtility {
 
       // Recurse adding steps for ingredients
       if (recipe.in && step.items.nonzero()) {
-        for (const ingredient of Object.keys(recipe.in).filter(
-          (i) => i !== itemId
-        )) {
+        for (const ingredient of Object.keys(recipe.in)) {
           const ingredientRate = rate.mul(recipe.in[ingredient]).div(out);
-          RateUtility.addStepsFor(
-            ingredient,
-            ingredientRate,
-            steps,
-            itemSettings,
-            data,
-            recipe.id
-          );
+          if (ingredient === itemId) {
+            this.addParentValue(step, recipe.id, ingredientRate);
+          } else {
+            RateUtility.addStepsFor(
+              ingredient,
+              ingredientRate,
+              steps,
+              itemSettings,
+              data,
+              recipe.id
+            );
+          }
         }
       }
     }
@@ -101,9 +104,18 @@ export class RateUtility {
 
   static adjustPowerPollution(step: Step, recipe: RationalRecipe): void {
     if (step.factories?.nonzero() && !recipe.part) {
-      // Calculate power
-      if (recipe.consumption?.nonzero()) {
-        step.power = step.factories.mul(recipe.consumption);
+      if (recipe.drain?.nonzero() || recipe.consumption?.nonzero()) {
+        // Reset power
+        step.power = Rational.zero;
+
+        // Calculate drain
+        if (recipe.drain?.nonzero()) {
+          step.power = step.power.add(step.factories.ceil().mul(recipe.drain));
+        }
+        // Calculate consumption
+        if (recipe.consumption?.nonzero()) {
+          step.power = step.power.add(step.factories.mul(recipe.consumption));
+        }
       }
       // Calculate pollution
       if (recipe.pollution?.nonzero()) {
@@ -160,6 +172,36 @@ export class RateUtility {
         const val = recipe.out[id].mul(step.factories).div(recipe.time);
         const outStep = steps.find((s) => s.itemId === id);
         step.outputs[id] = val.div(outStep.items);
+      }
+    }
+    return steps;
+  }
+
+  static calculateBeacons(
+    steps: Step[],
+    beaconReceivers: Rational,
+    recipeSettings: Entities<RationalRecipeSettings>,
+    data: Dataset
+  ): Step[] {
+    if (beaconReceivers && beaconReceivers.nonzero()) {
+      for (const step of steps.filter(
+        (s) =>
+          s.factories?.nonzero() &&
+          !data.recipeEntities[s.recipeId].part &&
+          recipeSettings[s.recipeId].beaconCount?.nonzero()
+      )) {
+        const settings = recipeSettings[step.recipeId];
+        if (settings.beaconTotal) {
+          step.beacons = settings.beaconTotal;
+        } else {
+          step.beacons = step.factories
+            .ceil()
+            .mul(settings.beaconCount)
+            .div(beaconReceivers);
+        }
+
+        const beacon = data.itemR[settings.beacon].beacon;
+        step.power = step.power.add(step.beacons.mul(beacon.usage));
       }
     }
     return steps;

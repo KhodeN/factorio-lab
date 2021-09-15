@@ -155,7 +155,7 @@ export class RouterService {
   ): Observable<Zip> {
     return this.requestHash(settings.baseId).pipe(
       map((hash) => {
-        let zipPartial: Zip = { bare: '', hash: '' };
+        const zipPartial: Zip = { bare: '', hash: '' };
         // Base
         const zBase = this.zipDiffString(
           settings.baseId,
@@ -202,6 +202,16 @@ export class RouterService {
     return bare.length < Math.max(zip.length, MIN_ZIP) ? bare : zip;
   }
 
+  getParams(zip: string): Entities {
+    const sections = zip.split('&');
+    const substr = sections[0][1] === '=' ? 2 : 1;
+    const params = sections.reduce((e: Entities<string>, v) => {
+      e[v[0]] = v.substr(substr);
+      return e;
+    }, {});
+    return params;
+  }
+
   updateState(e: Event): void {
     try {
       if (e instanceof NavigationEnd) {
@@ -231,12 +241,7 @@ export class RouterService {
             zip = zip
               .replace(/\*n\*/g, `*${NULL}*`)
               .replace(/\*e\*/g, `*${EMPTY}*`);
-            const sections = zip.split('&');
-            const substr = sections[0][1] === '=' ? 2 : 1;
-            const params = sections.reduce((e: Entities<string>, v) => {
-              e[v[0]] = v.substr(substr);
-              return e;
-            }, {});
+            const params = this.getParams(zip);
             let v = ZipVersion.Version0;
             if (params[Section.Version]) {
               v = params[Section.Version] as ZipVersion;
@@ -296,7 +301,10 @@ export class RouterService {
               }
               case ZipVersion.Version2:
               case ZipVersion.Version3: {
-                let baseId = this.parseNString(params[Section.Base], data.hash);
+                const baseId = this.parseNString(
+                  params[Section.Base],
+                  data.hash
+                );
                 this.requestHash(
                   baseId || initialSettingsState.baseId
                 ).subscribe((hash) => {
@@ -565,6 +573,7 @@ export class RouterService {
             this.zipTruthyString(obj.beacon),
             this.zipTruthyNumber(obj.overclock),
             this.zipTruthyString(obj.cost),
+            this.zipTruthyString(obj.beaconTotal),
           ]),
           hash: this.zipFields([
             this.zipTruthyNString(i, hash.recipes),
@@ -575,6 +584,7 @@ export class RouterService {
             this.zipTruthyNString(obj.beacon, hash.beacons),
             this.zipTruthyNumber(obj.overclock),
             this.zipTruthyString(obj.cost),
+            this.zipTruthyString(obj.beaconTotal),
           ]),
         };
       })
@@ -611,6 +621,7 @@ export class RouterService {
             beacon: this.parseString(s[i++]),
             overclock: this.parseNumber(s[i++]),
             cost: this.parseString(s[i++]),
+            beaconTotal: this.parseString(s[i++]),
           };
           break;
         }
@@ -628,6 +639,7 @@ export class RouterService {
             beacon: this.parseNString(s[i++], hash.beacons),
             overclock: this.parseNumber(s[i++]),
             cost: this.parseString(s[i++]),
+            beaconTotal: this.parseString(s[i++]),
           };
           break;
         }
@@ -780,6 +792,7 @@ export class RouterService {
         this.zipDiffString(state.costFactory, init.costFactory),
         this.zipDiffString(state.costInput, init.costInput),
         this.zipDiffString(state.costIgnored, init.costIgnored),
+        this.zipDiffString(state.beaconReceivers, init.beaconReceivers),
       ]),
       hash: this.zipFields([
         this.zipDiffDisplayRate(state.displayRate, init.displayRate),
@@ -804,6 +817,7 @@ export class RouterService {
         this.zipDiffString(state.costFactory, init.costFactory),
         this.zipDiffString(state.costInput, init.costInput),
         this.zipDiffString(state.costIgnored, init.costIgnored),
+        this.zipDiffString(state.beaconReceivers, init.beaconReceivers),
       ]),
     };
 
@@ -845,6 +859,7 @@ export class RouterService {
           costFactory: this.parseString(s[i++]),
           costInput: this.parseString(s[i++]),
           costIgnored: this.parseString(s[i++]),
+          beaconReceivers: this.parseString(s[i++]),
           preset: undefined,
         };
         break;
@@ -870,6 +885,7 @@ export class RouterService {
           costFactory: this.parseString(s[i++]),
           costInput: this.parseString(s[i++]),
           costIgnored: this.parseString(s[i++]),
+          beaconReceivers: this.parseString(s[i++]),
         };
         break;
       }
@@ -894,6 +910,7 @@ export class RouterService {
           costFactory: this.parseString(s[i++]),
           costInput: this.parseString(s[i++]),
           costIgnored: this.parseString(s[i++]),
+          beaconReceivers: this.parseString(s[i++]),
           baseId: undefined,
         };
         break;

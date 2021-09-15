@@ -32,6 +32,7 @@ import {
 import { RouterService } from '~/services';
 import { reducers, metaReducers } from '~/store';
 import { initialColumnsState } from '~/store/preferences';
+import { ValidateNumberDirective } from '~/support';
 import { ExportUtility } from '~/utilities';
 import { ListComponent, StepDetailTab } from './list.component';
 
@@ -145,6 +146,7 @@ describe('ListComponent', () => {
         IconComponent,
         InputComponent,
         SelectComponent,
+        ValidateNumberDirective,
         ListComponent,
         TestListComponent,
       ],
@@ -244,6 +246,9 @@ describe('ListComponent', () => {
       });
       expect(component.child.totalFactories).toEqual({
         [ItemId.AssemblingMachine3]: Rational.from(3),
+      });
+      expect(component.child.totalBeacons).toEqual({
+        [ItemId.Beacon]: Rational.from(8),
       });
       expect(component.child.totalPower).toEqual('1 kW');
       expect(component.child.totalPollution).toEqual('1');

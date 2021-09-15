@@ -1,8 +1,10 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 
 import { Mocks, TestUtility, ItemId } from 'src/tests';
 import {
@@ -15,7 +17,10 @@ import {
   ToggleComponent,
 } from '~/components';
 import { Game } from '~/models';
+import { RouterService } from '~/services';
+import { reducers, metaReducers } from '~/store';
 import { initialColumnsState } from '~/store/preferences';
+import { ValidateNumberDirective } from '~/support';
 import { BrowserUtility } from '~/utilities';
 import { SettingsComponent } from './settings.component';
 
@@ -51,6 +56,7 @@ enum DataTest {
       (setBeacon)="setBeacon($event)"
       (setBeaconModule)="setBeaconModule($event)"
       (setOverclock)="setOverclock($event)"
+      (setBeaconReceivers)="setBeaconReceivers($event)"
       (setBelt)="setBelt($event)"
       (setPipe)="setPipe($event)"
       (setFuel)="setFuel($event)"
@@ -92,6 +98,7 @@ class TestSettingsComponent {
   setBeacon(data): void {}
   setBeaconModule(data): void {}
   setOverclock(data): void {}
+  setBeaconReceivers(data): void {}
   setBelt(data): void {}
   setPipe(data): void {}
   setFuel(data): void {}
@@ -116,7 +123,13 @@ describe('SettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, RouterTestingModule],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        StoreModule.forRoot(reducers, { metaReducers }),
+      ],
       declarations: [
         ColumnsComponent,
         IconComponent,
@@ -125,9 +138,11 @@ describe('SettingsComponent', () => {
         RankerComponent,
         SelectComponent,
         ToggleComponent,
+        ValidateNumberDirective,
         SettingsComponent,
         TestSettingsComponent,
       ],
+      providers: [RouterService],
     }).compileComponents();
   });
 
@@ -185,7 +200,7 @@ describe('SettingsComponent', () => {
     });
 
     it('should set state to matching saved state', () => {
-      spyOnProperty(BrowserUtility, 'search').and.returnValue('hash');
+      spyOnProperty(BrowserUtility, 'search').and.returnValue('z=zip');
       component.child.ngOnInit();
       expect(component.child.state).toEqual('name');
     });
@@ -317,7 +332,7 @@ describe('SettingsComponent', () => {
       component.child.setState('name');
       expect(component.child.state).toEqual('name');
       expect(router.navigate).toHaveBeenCalledWith([], {
-        fragment: 'hash',
+        queryParams: { z: 'zip' },
       });
     });
   });
@@ -379,6 +394,24 @@ describe('SettingsComponent', () => {
 
     it('should handle invalid value', () => {
       expect(component.child.gtZero('x')).toBeFalse();
+    });
+  });
+
+  describe('toggleBeaconPower', () => {
+    it('should turn off beacon power estimation', () => {
+      component.child.settings = {
+        ...component.child.settings,
+        ...{ beaconReceivers: '1' },
+      };
+      spyOn(component, 'setBeaconReceivers');
+      component.child.toggleBeaconPower();
+      expect(component.setBeaconReceivers).toHaveBeenCalledWith(null);
+    });
+
+    it('should turn on beacon power estimation', () => {
+      spyOn(component, 'setBeaconReceivers');
+      component.child.toggleBeaconPower();
+      expect(component.setBeaconReceivers).toHaveBeenCalledWith('1');
     });
   });
 });

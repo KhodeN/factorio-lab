@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { TestUtility } from 'src/tests';
+import { ValidateNumberDirective } from '~/support';
 import { InputComponent } from './input.component';
 
 enum DataTest {
@@ -17,7 +18,8 @@ enum DataTest {
     [title]="title"
     [placeholder]="placeholder"
     [value]="value"
-    [narrow]="narrow"
+    [minimum]="minimum"
+    [digits]="digits"
     (setValue)="setValue($event)"
   ></lab-input>`,
 })
@@ -26,7 +28,8 @@ class TestInputComponent {
   title = 'title';
   placeholder = 'placeholder';
   value = '10';
-  narrow = false;
+  minimum = '1';
+  digits = '2';
   setValue(data): void {}
 }
 
@@ -36,7 +39,11 @@ describe('InputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [InputComponent, TestInputComponent],
+      declarations: [
+        ValidateNumberDirective,
+        InputComponent,
+        TestInputComponent,
+      ],
       imports: [FormsModule],
     }).compileComponents();
   });
@@ -54,9 +61,9 @@ describe('InputComponent', () => {
   describe('changeValue', () => {
     it('should emit a valid value', () => {
       spyOn(component, 'setValue');
-      TestUtility.setTextDt(fixture, DataTest.Input, '1/3');
+      TestUtility.setTextDt(fixture, DataTest.Input, '1 1/3');
       fixture.detectChanges();
-      expect(component.setValue).toHaveBeenCalledWith('1/3');
+      expect(component.setValue).toHaveBeenCalledWith('1 1/3');
     });
 
     it('should ignore invalid events', () => {
@@ -127,11 +134,20 @@ describe('InputComponent', () => {
       expect(component.setValue).toHaveBeenCalledWith('1');
     });
 
-    it('should not decrease below zero', () => {
-      component.value = '0';
+    it('should not decrease below minimum (click)', () => {
+      component.value = '1';
+      fixture.detectChanges();
+      spyOn(component.child, 'decrease');
+      TestUtility.clickDt(fixture, DataTest.Decrease);
+      fixture.detectChanges();
+      expect(component.child.decrease).not.toHaveBeenCalled();
+    });
+
+    it('should not decrease below minimum (function)', () => {
+      component.value = '1';
       fixture.detectChanges();
       spyOn(component, 'setValue');
-      TestUtility.clickDt(fixture, DataTest.Decrease);
+      component.child.decrease();
       fixture.detectChanges();
       expect(component.setValue).not.toHaveBeenCalled();
     });

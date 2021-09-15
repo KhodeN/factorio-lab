@@ -18,7 +18,7 @@ import {
   MatrixResultType,
   Game,
 } from './models';
-import { ErrorService, RouterService, StateService } from './services';
+import { ErrorService, StateService } from './services';
 import { State } from './store';
 import {
   getProducts,
@@ -33,7 +33,7 @@ import { getDatasets, getGame } from './store/settings';
   animations: [
     trigger('slideLeftRight', [
       transition(':enter', [
-        style({ marginLeft: '-24.25rem', marginRight: '1rem', opacity: 0 }),
+        style({ marginLeft: '-23.25rem', marginRight: '1rem', opacity: 0 }),
         animate(
           '300ms ease',
           style({ marginLeft: '*', marginRight: '*', opacity: 1 })
@@ -43,7 +43,7 @@ import { getDatasets, getGame } from './store/settings';
         style({ marginLeft: '*', marginRight: '*', opacity: 1 }),
         animate(
           '300ms ease',
-          style({ marginLeft: '-24.25rem', marginRight: '1rem', opacity: 0 })
+          style({ marginLeft: '-23.25rem', marginRight: '1rem', opacity: 0 })
         ),
       ]),
     ]),
@@ -62,8 +62,8 @@ export class AppComponent implements OnInit {
   homeHref: string;
   game: Game;
   showSettings: boolean;
-  poll = 'https://linkto.run/p/0UD8IV6X';
-  pollKey = 'poll0';
+  poll = 'https://www.survey-maker.com/Q62LJFYVL';
+  pollKey = 'poll1';
   showPoll = false;
   version = `${APP} ${environment.version}`;
 
@@ -73,7 +73,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     public error: ErrorService,
-    public router: RouterService,
     public store: Store<State>,
     public titleService: Title,
     public state: StateService // Included only to initialize the service

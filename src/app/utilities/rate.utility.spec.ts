@@ -1,6 +1,13 @@
 import { Mocks, CategoryId, ItemId, RecipeId } from 'src/tests';
 import { RateUtility } from './rate.utility';
-import { Step, Rational, DisplayRate } from '~/models';
+import {
+  Step,
+  Rational,
+  DisplayRate,
+  RationalRecipe,
+  Entities,
+  RationalRecipeSettings,
+} from '~/models';
 
 describe('RateUtility', () => {
   describe('addStepsFor', () => {
@@ -10,7 +17,7 @@ describe('RateUtility', () => {
         recipeId: 'iron-chest',
         items: Rational.from(30),
         factories: Rational.from(12, 7),
-        power: Rational.from(42450, 7),
+        power: Rational.from(42475, 7),
         pollution: Rational.from(94, 175),
       },
       {
@@ -18,7 +25,7 @@ describe('RateUtility', () => {
         recipeId: 'iron-plate',
         items: Rational.from(240),
         factories: Rational.from(3200, 47),
-        power: Rational.from(4742400, 47),
+        power: Rational.from(4742658, 47),
         pollution: Rational.from(2624, 235),
         parents: { 'iron-chest': Rational.from(240) },
       },
@@ -168,6 +175,40 @@ describe('RateUtility', () => {
         },
       ]);
     });
+
+    it('should assign parents for circular recipes', () => {
+      const steps: Step[] = [];
+      const recipe = new RationalRecipe({
+        ...Mocks.AdjustedData.recipeEntities[RecipeId.Coal],
+        ...{ in: { [ItemId.Coal]: 0.1 }, out: { [ItemId.Coal]: 1 } },
+      });
+      RateUtility.addStepsFor(
+        ItemId.Coal,
+        Rational.one,
+        steps,
+        Mocks.ItemSettingsEntities,
+        {
+          ...Mocks.AdjustedData,
+          ...{
+            recipeR: {
+              ...Mocks.AdjustedData.recipeR,
+              ...{
+                [RecipeId.Coal]: recipe,
+              },
+            },
+          },
+        }
+      );
+      expect(steps).toEqual([
+        {
+          itemId: ItemId.Coal,
+          items: Rational.one,
+          recipeId: RecipeId.Coal,
+          factories: Rational.from(10, 9),
+          parents: { [RecipeId.Coal]: Rational.from(1, 9) },
+        },
+      ]);
+    });
   });
 
   describe('addParentValue', () => {
@@ -201,25 +242,56 @@ describe('RateUtility', () => {
       expect(result).toEqual(step);
     });
 
-    it('should handle null power/pollution', () => {
+    it('should handle null drain/consumption/pollution', () => {
       const step: any = { factories: Rational.one };
       const result = { ...step };
-      const recipe: any = { power: null, pollution: null };
+      const recipe: any = { drain: null, consumption: null, pollution: null };
       RateUtility.adjustPowerPollution(result, recipe);
       expect(result).toEqual(step);
     });
 
-    it('should calculate power/pollution', () => {
-      const step: any = { factories: Rational.two };
+    it('should handle only drain', () => {
+      const step: any = { factories: Rational.one };
+      const result = { ...step };
       const recipe: any = {
-        consumption: new Rational(BigInt(3)),
-        pollution: new Rational(BigInt(4)),
+        drain: Rational.two,
+        consumption: null,
+        pollution: null,
+      };
+      RateUtility.adjustPowerPollution(result, recipe);
+      expect(result).toEqual({
+        factories: Rational.one,
+        power: Rational.two,
+      });
+    });
+
+    it('should handle only consumption', () => {
+      const step: any = { factories: Rational.one };
+      const result = { ...step };
+      const recipe: any = {
+        drain: null,
+        consumption: Rational.two,
+        pollution: null,
+      };
+      RateUtility.adjustPowerPollution(result, recipe);
+      expect(result).toEqual({
+        factories: Rational.one,
+        power: Rational.two,
+      });
+    });
+
+    it('should calculate power/pollution', () => {
+      const step: any = { factories: Rational.from(3, 2) };
+      const recipe: any = {
+        drain: Rational.from(3),
+        consumption: Rational.from(4),
+        pollution: Rational.from(5),
       };
       RateUtility.adjustPowerPollution(step, recipe);
       expect(step).toEqual({
-        factories: Rational.two,
-        power: new Rational(BigInt(6)),
-        pollution: new Rational(BigInt(8)),
+        factories: Rational.from(3, 2),
+        power: Rational.from(12),
+        pollution: Rational.from(15, 2),
       });
     });
   });
@@ -369,6 +441,83 @@ describe('RateUtility', () => {
       expect(result[0].outputs).toEqual({
         [ItemId.Coal]: Rational.from(1183, 200),
       });
+    });
+  });
+
+  describe('calculateBeacons', () => {
+    it('should skip if beacon receivers is null or zero', () => {
+      expect(RateUtility.calculateBeacons(null, null, null, null)).toBeNull();
+      expect(
+        RateUtility.calculateBeacons(null, Rational.zero, null, null)
+      ).toBeNull();
+    });
+
+    it('should ignore steps with no factories or beacons', () => {
+      const settings: Entities<RationalRecipeSettings> = {
+        [RecipeId.Coal]: { beaconCount: Rational.zero },
+        [RecipeId.IronOre]: {},
+      };
+      const steps = [
+        {},
+        { factories: Rational.zero },
+        { factories: Rational.one, recipeId: RecipeId.Coal },
+        { factories: Rational.one, recipeId: RecipeId.IronOre },
+      ] as any;
+      expect(
+        RateUtility.calculateBeacons(
+          steps,
+          Rational.one,
+          settings,
+          Mocks.AdjustedData
+        )
+      ).toEqual(steps);
+    });
+
+    it('should calculate the number of beacons', () => {
+      const steps: Step[] = [
+        {
+          itemId: ItemId.Coal,
+          items: Rational.one,
+          recipeId: RecipeId.Coal,
+          factories: Rational.one,
+          power: Rational.zero,
+        },
+      ];
+      RateUtility.calculateBeacons(
+        steps,
+        Rational.one,
+        Mocks.RationalRecipeSettingsInitial,
+        Mocks.AdjustedData
+      );
+      expect(steps[0].beacons).toEqual(Rational.from(8));
+      expect(steps[0].power).toEqual(Rational.from(3840));
+    });
+
+    it('should override from recipe settings', () => {
+      const settings: Entities<RationalRecipeSettings> = {
+        [RecipeId.Coal]: {
+          beaconCount: Rational.from(8),
+          beacon: ItemId.Beacon,
+          beaconTotal: Rational.one,
+        },
+      };
+      const steps: Step[] = [
+        {
+          itemId: ItemId.Coal,
+          items: Rational.one,
+          recipeId: RecipeId.Coal,
+          factories: Rational.one,
+          power: Rational.zero,
+        },
+      ];
+      RateUtility.calculateBeacons(
+        steps,
+        Rational.one,
+        settings,
+        Mocks.AdjustedData
+      );
+      expect(steps[0].beacons).toEqual(Rational.one);
+      expect(steps[0].power).toEqual(Rational.from(480));
     });
   });
 

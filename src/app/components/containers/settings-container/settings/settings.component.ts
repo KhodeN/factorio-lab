@@ -37,6 +37,7 @@ import {
   GameOptions,
   PreviousPayload,
 } from '~/models';
+import { RouterService } from '~/services';
 import { FactoriesState } from '~/store/factories';
 import { ColumnsState, PreferencesState } from '~/store/preferences';
 import { SettingsState, initialSettingsState } from '~/store/settings';
@@ -82,6 +83,7 @@ export class SettingsComponent implements OnInit, OnChanges {
   @Output() setBeacon = new EventEmitter<DefaultIdPayload>();
   @Output() setBeaconModule = new EventEmitter<DefaultIdPayload>();
   @Output() setOverclock = new EventEmitter<DefaultIdPayload<number>>();
+  @Output() setBeaconReceivers = new EventEmitter<string>();
   @Output() setBelt = new EventEmitter<DefaultPayload>();
   @Output() setPipe = new EventEmitter<DefaultPayload>();
   @Output() setFuel = new EventEmitter<DefaultPayload>();
@@ -141,7 +143,11 @@ export class SettingsComponent implements OnInit, OnChanges {
   ctrlMiningProductivity = new FormControl('', Validators.min(0));
   ctrlMiningSpeed = new FormControl('', Validators.min(100));
 
-  constructor(private ref: ChangeDetectorRef, private router: Router) {}
+  constructor(
+    private ref: ChangeDetectorRef,
+    private router: Router,
+    private routerSvc: RouterService
+  ) {}
 
   ngOnInit(): void {
     this.state =
@@ -225,10 +231,11 @@ export class SettingsComponent implements OnInit, OnChanges {
   }
 
   setState(id: string): void {
-    const fragment = this.preferences.states[id];
-    if (fragment) {
+    const query = this.preferences.states[id];
+    if (query) {
+      const queryParams = this.routerSvc.getParams(query);
       this.state = id;
-      this.router.navigate([], { fragment });
+      this.router.navigate([], { queryParams });
     }
   }
 
@@ -260,5 +267,13 @@ export class SettingsComponent implements OnInit, OnChanges {
       return Rational.fromString(value).gt(Rational.zero);
     } catch {}
     return false;
+  }
+
+  toggleBeaconPower(): void {
+    if (this.settings.beaconReceivers) {
+      this.setBeaconReceivers.emit(null);
+    } else {
+      this.setBeaconReceivers.emit('1');
+    }
   }
 }
