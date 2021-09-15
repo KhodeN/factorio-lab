@@ -93,7 +93,7 @@ export const getDefaults = createSelector(
           break;
         }
         case Game.ReFactory: {
-          moduleRank = m.moduleRank;
+          moduleRank = preset === Preset.Minimum ? [m.minBelt] : [m.maxBelt];
           break;
         }
       }

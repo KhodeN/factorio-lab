@@ -24,49 +24,48 @@ export const getLinkText = compose(sLinkText, preferencesState);
 export const getSankeyAlign = compose(sSankeyAlign, preferencesState);
 export const getSimplex = compose(sSimplex, preferencesState);
 
+function hideColumns(col: ColumnsState, ...columns: Column[]): ColumnsState {
+  return columns.reduce((acc, column) => {
+    acc[column] = {
+      ...col[column],
+      show: false
+    };
+
+    return acc;
+  }, {});
+}
+
 export const getColumnsState = createSelector(
   getColumns,
   Settings.getGame,
-  (col, game): ColumnsState =>
-    game === Game.DysonSphereProgram
-      ? {
+  (col, game): ColumnsState => {
+    switch (game) {
+      case Game.Factorio:
+        return {
           ...initialColumnsState,
           ...col,
-          ...{
-            [Column.Wagons]: { ...col[Column.Wagons], ...{ show: false } },
-            [Column.Overclock]: {
-              ...col[Column.Overclock],
-              ...{ show: false },
-            },
-            [Column.Beacons]: { ...col[Column.Beacons], ...{ show: false } },
-            [Column.Pollution]: {
-              ...col[Column.Pollution],
-              ...{ show: false },
-            },
-          },
-        }
-      : game === Game.Satisfactory
-      ? {
+          ...hideColumns(col, Column.Overclock)
+        };
+      case Game.DysonSphereProgram:
+        return {
           ...initialColumnsState,
           ...col,
-          ...{
-            [Column.Beacons]: { ...col[Column.Beacons], ...{ show: false } },
-            [Column.Pollution]: {
-              ...col[Column.Pollution],
-              ...{ show: false },
-            },
-          },
-        }
-      : {
+          ...hideColumns(col, Column.Wagons, Column.Overclock, Column.Beacons, Column.Pollution)
+        };
+      case Game.Satisfactory:
+        return {
           ...initialColumnsState,
           ...col,
-          ...{
-            [Column.Overclock]: {
-              ...col[Column.Overclock],
-              ...{ show: false },
-            },
-          },
-        }
+          ...hideColumns(col, Column.Beacons, Column.Pollution)
+        };
+      case Game.ReFactory:
+        return {
+          ...initialColumnsState,
+          ...col,
+          ...hideColumns(col, Column.Wagons, Column.Overclock, Column.Beacons, Column.Pollution)
+        };
+    }
+  }
 );
 
 export const getLinkPrecision = createSelector(
